@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="father" id="1">
+        <createTable tableName="city">
+            <column name="id" type="int(11)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints uniqueConstraintName="uk_city_name" unique="true" nullable="false"/>
+            </column>
+            <column name="Latitude" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Longitude" type="float">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="father" id="2">
+        <createTable tableName="distance">
+            <column name="id" type="int(11)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="from_city" type="int(11)">
+                <constraints references="city(id)" foreignKeyName="fk_dist_from_city" nullable="false"/>
+            </column>
+            <column name="to_city" type="int(11)">
+                <constraints references="city(id)" foreignKeyName="fk_dist_to_city" nullable="false"/>
+            </column>
+            <column name="distance" type="float">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="father">
+        <addUniqueConstraint tableName="distance" constraintName="uk_dist_fromcity_tocity" columnNames="from_city, to_city"/>
+    </changeSet>
+</databaseChangeLog>
